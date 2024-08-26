@@ -58,4 +58,31 @@ class UserController extends Controller
         ]);
     }
 
+
+    public function user()
+    {
+        $user=auth()->user();
+        return response()->json([
+            "data"=>$user,
+        ]);
+    }
+
+    public function logout(){
+        auth()->logout(true);
+
+        return response()->json([
+            "data"=>"user has been logged out"
+        ]);
+    }
+
+    public function refresh(){
+        $token =auth()->refresh();
+
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL()*60
+        ]);
+    }
+
 }
